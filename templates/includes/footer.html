@@ -1,0 +1,63 @@
+{% load static %}
+<link href="{%static 'assets/css/footer3.css'%}" type="text/css" rel="stylesheet" media="all">
+<!--/footer-bottom-->
+<div class="footerv3-w3ls">
+    <!-- footerv3-top -->
+    <div class="footerv3-top">
+        <div class="container">
+            <div class="col-md-3 col-sm-6 footv3-left">
+                <h3>About Us</h3>
+                <h4>
+                    <a href="{%url 'catalog:home' %}">BookWise</a>
+                </h4>
+                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+                    industry's standard.</p>
+            </div>
+            <div class="col-md-3 col-sm-6 footv3-left">
+                <h3>Get In Touch</h3>
+                <p>Lorem Ipsum is simply dummy text of the printing and typesetting.</p>
+
+                <div class="fv3-contact">
+                    <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
+                    <p>Bestech Tower, Mohali</p>
+                </div>
+                <div class="fv3-contact">
+                    <span class="glyphicon glyphicon-earphone" aria-hidden="true"></span>
+                    <p>0172-2345637</p>
+                    <div class="fv3-contact">
+                    </div>
+                    <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+                    <p>
+                        <a href="mailto:bookwise@gmail.com">bookwise@gmail.com</a>
+                    </p>
+                </div>
+                <div class="clearfix"></div>
+
+            </div>
+            <div class="col-md-3 col-sm-6 footv3-left">
+                <h3>Latest releases</h3>
+                <ul>
+                    {% for book in latest %}
+                    <li>
+                        <a href="/shop/{{book.slug}}">
+                            {% if book.image %}
+                            <img src="{{book.image.url}}" alt="" class="img-responsive">
+                            {% else %}
+                            <img src="{% static 'assets/images/book-sample.jpg' %}" alt="" class="img-responsive">
+                            {% endif %}
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <!-- /footerv3-top -->
+</div>
+<div class="cpy-right">
+    <p>© 2018 BookWise. All rights reserved
+    </p>
+</div>
+</div>
+    

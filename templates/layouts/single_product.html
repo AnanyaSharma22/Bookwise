@@ -1,0 +1,263 @@
+{% extends "layouts/base.html"%}
+
+{%load static mytags%}
+{% block content %}
+{% if book %}
+<br><br><br><br><br>
+<div class="innerf-pages section">
+			<div class="container">
+				<div class="col-md-4 single-right-left ">
+					<div class="grid images_3_of_2">
+                        {% if book.image %}
+							<img src="{{book.image.url}}" alt="">
+						{% else %}
+							<img src="{% static 'assets/images/book-sample.jpg' %}" alt="" height='300px' width="200px">
+						{% endif %}
+						
+					</div>
+
+				</div>
+				<div class="col-md-8 single-right-left simpleCart_shelfItem">
+					<h3>{{book.title}}
+					</h3>
+					<p>by
+						<a href="#">{{book.author.all.first}}</a>
+					</p>
+					<div class="caption">
+
+						{% if book.avg_rating %}
+									<ul class="rating">
+  										{% with book.avg_rating|floatformat:"0" as avg%}
+										{% for i in "x"|ljust:avg %}
+										<li>
+												<span class="fa fa-star" aria-hidden="true"></span>
+										</li>
+										{% endfor %}
+
+										{% with avg|subt as empty %}
+										{% if empty %}
+										{% for i in "x"|ljust:empty %}
+										<li>
+												<span class="fa fa-star-o" aria-hidden="true"></span>
+										</li>
+										{% endfor %}
+										{% endif %}
+										{% endwith %}
+										{% endwith %}
+									</ul>
+									{% else %}
+									<ul class="rating">
+										{% for i in '12345' %}
+										<li>
+											<span class="fa fa-star-o" aria-hidden="true"></span>
+										</li>
+										{% endfor %}
+									</ul>
+									{% endif %}
+						<div class="clearfix"> </div>
+						<h6>Rs. {{book.price}}</h6>
+					</div>
+					<div class="desc_single">
+						<h5>Description</h5>
+						<p>{{book.description}}</p>
+					</div>
+					<div class="occasional">
+						<h5>Specifications</h5>
+						<ul class="single_specific">
+							<li>
+								<span>language :</span> english</li>
+							<li>
+								<span>publisher :</span> {{book.publisher}}</li>
+							<li>
+								<span>price :</span> {{book.price}}</li>
+							<li>
+								<span>pages :</span> {{book.pages}}</li>
+						</ul>
+					</div>
+					<div class="clearfix"></div>
+					<div class="description">
+						<h5>Check delivery, payment options and charges at your location</h5>
+						<form action="#" method="post">
+							<input type="text" value="Enter pincode" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Enter pincode';}"
+							    required="">
+							<input type="submit" value="Check">
+						</form>
+					</div>
+					<div class="occasion-cart">
+						<div class="chr single-item single_page_b">
+							<form action="#" method="post">
+									<input type="hidden" name="cmd" value="_cart">
+									<input type="hidden" name="add" value="1">
+									<input type="hidden" name="item_number" value="{{book.id}}">
+									<input type="hidden" name="chr_item" value="{{book}}">
+									<input type="hidden" name="amount" value="{{book.price}}">
+									<input type="hidden" value="INR" name="currency_code" />
+									<button type="submit" class="chr-cart pchr-cart add">Add to cart
+										<i class="fa fa-cart-plus" aria-hidden="true"></i>
+									</button>
+									<a href="#" data-toggle="modal" data-target="#myModal1"></a>
+							</form>
+						</div>
+					</div>
+				</div>
+				<div class="clearfix"> </div>
+				{% if not request.user.is_anonymous %}
+				<div class="rating-add">
+					<form class="rating-form" method="POST" id="add-rating">
+						{% csrf_token %}
+						<legend>Already read the book? Add rating:</legend>
+						<fieldset class="ratingg">
+								<input type="radio" id="star5" name="rating" class="radio"  value="5" /><label for="star5" title="Excellent">5 stars</label>
+								<input type="radio" id="star4" name="rating" class="radio"  value="4" /><label for="star4" title="Good">4 stars</label>
+								<input type="radio" id="star3" name="rating" class="radio"  value="3" /><label for="star3" title="Average">3 stars</label>
+								<input type="radio" id="star2" name="rating" class="radio"  value="2" /><label for="star2" title="Bad">2 stars</label>
+								<input type="radio" id="star1" name="rating" class="radio"  value="1" /><label for="star1" title="Worst">1 star</label>
+						</fieldset>
+						<input type="text" id="userrating" name="userrating" hidden required {% if userreview %} value="{{userreview.rating}}" {% endif %}/>
+						<input type="text" id="book" name="book_id" value={{book.id}} required hidden/>
+						<textarea name="comment" cols="40" rows="5" {% if not userreview %} placeholder="Add your comment here.. (optional)" {% endif %}>{% if userreview %}{{userreview.comment}}{% endif %}</textarea>
+						<button class="submit">Add Rating</button>
+					</form>
+				</div>
+					{% endif %}
+				<div class="rating-show">
+					<div class="rating-left">
+							<span class="head-font">User Rating</span>
+							{% if book.avg_rating %}
+  										{% with book.avg_rating|floatformat:"0" as avg%}
+										{% for i in "x"|ljust:avg %}
+												<span class="fa fa-star rate-star"></span>			
+										{% endfor %}
+										{% with avg|subt as empty %}
+										{% if empty %}
+										{% for i in "x"|ljust:empty %}
+												<span class="fa fa-star-o rate-star"></span>
+										{% endfor %}
+										{% endif %}
+										{% endwith %}
+										{% endwith %}
+									</ul>
+									{% else %}
+										{% for i in '12345' %}
+												<span class="fa fa-star-o rate-star"></span>
+										{% endfor %}
+									</ul>
+									{% endif %}
+
+							{% if book.avg_rating %}<p>{{book.avg_rating|floatformat:1}} average based on {{rating_total.total}} reviews.</p> {% endif %}
+							<hr style="border:3px solid #ececec">
+
+							<div class="rows">
+							<div class="side">
+								<div>5 star</div>
+							</div>
+							<div class="middle">
+								<div class="bar-container">
+								<div class="bar-5" style="width:{{rating_total.5|percent:rating_total.total}}%"></div>
+								</div>
+							</div>
+							<div class="side right">
+								<div>{{rating_total.5}}</div>
+							</div>
+							<div class="side">
+								<div>4 star</div>
+							</div>
+							<div class="middle">
+								<div class="bar-container">
+								<div class="bar-4" style="width:{{rating_total.4|percent:rating_total.total}}%"></div>
+								</div>
+							</div>
+							<div class="side right">
+								<div>{{rating_total.4}}</div>
+							</div>
+							<div class="side">
+								<div>3 star</div>
+							</div>
+							<div class="middle">
+								<div class="bar-container">
+								<div class="bar-3" style="width:{{rating_total.3|percent:rating_total.total}}%"></div>
+								</div>
+							</div>
+							<div class="side right">
+								<div>{{rating_total.3}}</div>
+							</div>
+							<div class="side">
+								<div>2 star</div>
+							</div>
+							<div class="middle">
+								<div class="bar-container">
+								<div class="bar-2" style="width:{{rating_total.2|percent:rating_total.total}}%"></div>
+								</div>
+							</div>
+							<div class="side right">
+								<div>{{rating_total.2}}</div>
+							</div>
+							<div class="side">
+								<div>1 star</div>
+							</div>
+							<div class="middle">
+								<div class="bar-container">
+								<div class="bar-1" style="width:{{rating_total.1|percent:rating_total.total}}%"></div>
+								</div>
+							</div>
+							<div class="side right">
+								<div>{{rating_total.1}}</div>
+							</div>
+							</div>
+
+					</div>
+					<div class="rating-right">
+						{% if book.avg_rating %}
+						{% for rating in ratings %}
+
+						<div class="userstars">
+									<ul class="rating">
+  										{% with rating.rating as stars %}
+										{% for i in "x"|ljust:stars %}
+										<li>
+												<span class="fa fa-star" aria-hidden="true"></span>
+										</li>
+										{% endfor %}
+
+										{% with stars|subt as empty %}
+										{% if empty %}
+										{% for i in "x"|ljust:empty %}
+										<li>
+												<span class="fa fa-star-o" aria-hidden="true"></span>
+										</li>
+										{% endfor %}
+										{% endif %}
+										{% endwith %}
+										<li>{{rating.customer.firstname}} {{rating.customer.lastname}}</li>
+										{% endwith %}
+									</ul>
+									{{rating.comment}}
+						</div>
+						{% endfor %}
+						
+						{% else %}
+							No ratings yet.. Please add a rating to help others
+						{% endif %}
+						
+					</div>
+				</div>
+				<div style="clear:both"></div>
+		</div>
+{% endif %}
+{% endblock %}
+{% block extrajs %}
+<script>
+	$(document).ready(function(){
+		if ($('#userrating').attr('value')){
+			var rating = $('#userrating').attr("value");
+			id = '#star'+rating
+			$(id).click();
+		}
+		$(".ratingg").on("click", ".radio", function () {
+    		var value = $(this).attr("value");
+			$('#userrating').attr('value',value);
+		});
+	});
+	 
+</script>
+{% endblock %}

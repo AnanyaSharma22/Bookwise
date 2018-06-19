@@ -1,0 +1,28 @@
+{%extends 'layouts/base.html'%} {% load static %} {% block content %}
+<div class="innerf-pages section">
+	<div class="container">
+		<div class="privacy about">
+			<h4 class="rad-txt">
+				<span class="abtxt1">Your</span>
+				<span class="abtext">Orders</span>
+			</h4>
+<h1> See your orders here!! </h1> 
+<br> <br>
+<ul>
+{% if object_list %}
+{% for order in object_list %}
+  <li> Order Number: <a href="{{order.id}}"> {{ order.id }} </a></li>
+  <li> Total Amount: {{ order.total_amt}} </li>
+  <li> Order Date: {{ order.order_date}} </li>
+	<li> Order Time: {{ order.order_time}} </li>
+  <br> <br>
+{% endfor %}
+{% else %}
+  <li>No orders yet.</li>
+{% endif %}
+</ul>
+</div>
+</div>
+</div>
+
+{% endblock %}

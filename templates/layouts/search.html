@@ -1,0 +1,109 @@
+{% extends "layouts/base.html"%} {% load static mytags %}
+{%block title%}Shop | Bookwise{% endblock %}
+{% block content %}
+<!-- banner -->
+<div class="banner-bg-inner">
+			<img src="{% static 'assets/images/one_page.jpg' %}" alt="" style="width:100%; padding-top:70px;">
+</div>
+<div class="innerf-pages section">
+	<div class="container-cart">
+		<!-- //product left -->
+		<!-- product right -->
+		<div class="search-button">
+			<div class="wrapper_top_shop">
+				<!-- product-sec1 -->
+				<div class="product-sec1">
+					<!-- Book Listing-->
+					{% if book_list %}
+					{% for book in book_list %}
+					<div class="col-md-3 product-men">
+						<div class="product-chr-info chr">
+							<div class="thumbnail">
+								<a href="/shop/{{book.slug}}">
+									{% if book.image %}
+									<img src="{{book.image.url}}" alt=""> {% else %}
+									<img src="{% static 'assets/images/book-sample.jpg' %}" alt="" height='300px' width="200px"> {% endif %}
+								</a>
+							</div>
+							<div class="caption">
+								<a href="{{book.slug}}">
+									<h4>{{book.title | truncatechars:15}}</h4>
+								</a>
+								<p>{{book.author.all.first|truncatechars:20}}</p>
+								<div class="matrlf-mid">
+									{% if book.avg_rating %}
+									<ul class="rating">
+
+										{% with book.avg_rating|floatformat:"0" as avg%} {% for i in "x"|ljust:avg %}
+
+										<li>
+											<a href="#">
+												<span class="fa fa-star gray-star" aria-hidden="true"></span>
+											</a>
+										</li>
+										{% endfor %} {% with avg|subt as empty %} {% if empty %} {% for i in "x"|ljust:empty %}
+
+										<li>
+											<a href="#">
+												<span class="fa fa-star-o gray-star" aria-hidden="true"></span>
+											</a>
+										</li>
+
+										{% endfor %} {% endif %} {% endwith %} {% endwith %}
+									</ul>
+									{% else %}
+									<ul class="rating">
+										{% for i in '12345' %}
+										<li>
+											<a href="#">
+												<span class="fa fa-star-o gray-star" aria-hidden="true"></span>
+											</a>
+										</li>
+										{% endfor %}
+									</ul>
+									{% endif %}
+									<ul class="price-list">
+										<li>
+											Rs. {{book.price}}
+										</li>
+									</ul>
+
+									<div class="clearfix"> </div>
+								</div>
+								<form action="#" method="post">
+									<input type="hidden" name="cmd" value="_cart">
+									<input type="hidden" name="add" value="1">
+									<input type="hidden" name="item_number" value="{{book.id}}">
+									<input type="hidden" name="chr_item" value="{{book}}">
+									<input type="hidden" name="amount" value="{{book.price}}">
+									<input type="hidden" value="INR" name="currency_code" />
+									<button type="submit" class="chr-cart pchr-cart add">Add to cart
+										<i class="fa fa-cart-plus" aria-hidden="true"></i>
+									</button>
+									<a href="#" data-toggle="modal" data-target="#myModal1"></a>
+								</form>
+							</div>
+						</div>
+					</div>
+					{% endfor %}
+					{% else %}
+					<!-- end of book listing -->
+					<div class="panel panel-info">
+  						<div class="panel-body">No books available for this matching filter. Please try with some different filter.</div>
+					</div>
+					{% endif %}
+
+					<div class="clearfix"></div>
+
+				</div>
+
+				<!-- //product-sec1 -->
+				<div class="clearfix"></div>
+			</div>
+		</div>
+		<div class="clearfix"></div>
+
+	</div>
+</div>
+
+{% endblock %} 

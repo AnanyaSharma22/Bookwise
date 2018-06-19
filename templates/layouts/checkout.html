@@ -1,0 +1,85 @@
+{%extends 'layouts/base.html'%} {% load static %} {% block content %}
+         <div class="innerf-pages section">
+            <div class="container">
+                <div class="privacy about">
+                    <h4 class="rad-txt">
+                        <span class="abtxt1">review</span>
+                        <span class="abtext">your order</span>
+                    </h4>
+
+                    <div class="checkout-right" onload="loaderFunction()">
+                        <h4 class="inner">
+                        </h4>
+                        <div id="loader"></div>
+                        <table class="timetable_sub table-responsive" id="cart-table" >
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="checkout-left">
+                        
+                        <div class="address_form" style="display:none">
+                            <h4>Billing Address</h4>
+                            <form action="{% url 'catalog:payment' %}" method="post" class="creditly-card-form shopf-sear-headinfo_form" id="detail-form">
+                               {% csrf_token %}
+                                <div class="creditly-wrapper wrapper">
+                                    <div class="information-wrapper">
+                                        <div class="first-row form-group">
+                                            
+                                            <div class="card_number_grids">
+                                                
+                                                <div class="card_number_grid_left">
+                                                    <div class="controls"> 
+                                                        <label class="control-label">House number/Flat number:</label>
+                                                        <input class="form-control"{% if address.house_no %} value="{{address.house_no}}" {% endif %} type="text" name="house" placeholder="House number/Flat number:" required/>
+                                                         </div>
+                                                </div>
+                                                <div class="card_number_grid_right">
+                                                    <div class="controls">
+                                                        <label class="control-label">Area </label>
+                                                        <input class="form-control" value="{% if address.landmark %}{{address.landmark}}{% endif %}" type="text" name="area" placeholder="Area">
+                                                    </div>
+                                                </div>
+                                                <div class="clear"> </div>
+                                            </div>
+                                            <div class="controls">
+                                                <label class="control-label">Pincode </label>
+                                                <input class="form-control" value="{% if address.pincode %}{{address.pincode}}{% endif %}" type="text" name="pincode" placeholder="Pincode" required>
+                                            </div>
+                                            <div class="controls">
+                                                <label class="control-label">Town/City: </label>
+                                                <input class="form-control" value="{% if address.city %}{{address.city}}{% endif %}" type="text" name="city" placeholder="Town/City" required>
+                                            </div>
+                                            <div class="controls">
+                                                <label class="control-label">State: </label>
+                                                <input class="form-control" value="{% if address.state %}{{address.state}}{% endif %}" type="text" name="state" placeholder="State" required>
+                                            </div>
+                                            <div class="controls" style="display:none">
+                                                <label class="control-label">Country</label>
+                                                <input class="form-control" value="{% if address.country %}{{address.country}}{% endif %}" type="text" name="country" placeholder="country" value="India" readonly >
+                                            </div>
+
+                                        </div>
+                                        <button class="submit check_out">Continue to payment</button>
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+
+                        <div class="clearfix"> </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+{% block extrajs %}
+		<script src="{% static 'assets/js/session-cart.js' %}"></script>
+       
+{% endblock %}
+
+{% endblock %}
