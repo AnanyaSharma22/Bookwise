@@ -9,7 +9,7 @@ django-debug-toolbar==1.9.1
 django-mail-panel==1.0.7
 django-oauth-toolkit==1.0.0
 django-tinymce==2.6.0
-djangorestframework==3.7.3
+djangorestframework==3.11.2
 idna==2.6
 oauthlib==2.0.6
 Pillow==5.1.0
