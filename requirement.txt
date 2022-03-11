@@ -12,7 +12,7 @@ django-tinymce==2.6.0
 djangorestframework==3.7.3
 idna==2.6
 oauthlib==2.0.6
-Pillow==5.1.0
+Pillow==9.0.1
 psycopg2==2.7.4
 pycparser==2.18
 pytz==2018.3
